@@ -71,20 +71,25 @@ let player;
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
-    videoId: 'CG_a1c6Je8c',  // YouTube動画ID
+    videoId: 'CG_a1c6Je8c',
     playerVars: {
-      autoplay: 1,            // 自動再生
-      controls: 0,            // コントロール非表示
-      modestbranding: 1,      // YouTubeロゴ控えめ
-      loop: 1,                // ループ再生
-      playlist: 'CG_a1c6Je8c',// ループ用に同じIDを指定
-      mute: 1,                // ミュート再生
-      rel: 0,                 // 関連動画非表示
-      showinfo: 0             // 動画タイトル非表示
+      autoplay: 1,
+      mute: 1,
+      loop: 1,
+      playlist: 'CG_a1c6Je8c',
+      controls: 0,
+      modestbranding: 1,
+      rel: 0
     },
     events: {
       onReady: (event) => {
+        event.target.mute();
         event.target.playVideo();
+      },
+      onStateChange: (event) => {
+        if (event.data === YT.PlayerState.ENDED) {
+          event.target.playVideo();
+        }
       }
     }
   });
